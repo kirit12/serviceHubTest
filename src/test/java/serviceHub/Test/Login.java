@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import com.serviceHub.ReadExcel;
 import com.serviceHub.base;
@@ -15,15 +16,15 @@ import atu.testng.reports.logging.LogAs;
 import atu.testng.selenium.reports.CaptureScreen;
 import atu.testng.selenium.reports.CaptureScreen.ScreenshotOf;
 
-public class Login {
+public class Login extends base{
 
 	public base baseObj = new base();
 	public LoginPage loginpage = new LoginPage();
 	ReadExcel readexcel = new ReadExcel();
 	Logger log = LogManager.getLogger(Login.class.getName());
 	
-
-	public void LoginTest(WebDriver driver)
+	@Test
+	public void LoginTest()
 	{
 		try{
 			log.info("Login test started....");
@@ -41,7 +42,7 @@ public class Login {
 			
 			//System.out.println(user);
 			//Thread.sleep(7000);
-			Assert.assertEquals(user,"Welcome Albert");
+			Assert.assertEquals(user,"Welcome Bryan 9999 S.A");
 			ATUReports.add("Login Test", "null", "Welcome Albert", user, LogAs.PASSED,new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
 
 		}catch(Exception e)

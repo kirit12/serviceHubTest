@@ -11,7 +11,7 @@
   
   
     <classes>
-       <class name="serviceHub.OrderManagement.CreateOrder"/>
+       <class name="serviceHub.Test.Login"/>
       
     </classes>
   </test>
