@@ -15,7 +15,7 @@ public class LoginPage {
 	@FindBy(how=How.XPATH,using ="//*[@class='btn btn-primary']")
 	public WebElement login_btn;
 	
-	@FindBy(how=How.CLASS_NAME,using ="hidden-xs ng-binding")
+	@FindBy(how=How.XPATH,using ="//*[@class='hidden-xs ng-binding']")
 	public WebElement user_lbl;
 	
 	

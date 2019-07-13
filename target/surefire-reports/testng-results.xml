@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="1" total="1" passed="0">
+  <reporter-output>
+    <line>
+      <![CDATA[STEP1]]>
+    </line>
+    <line>
+      <![CDATA[STEP2]]>
+    </line>
+    <line>
+      <![CDATA[STEP3]]>
+    </line>
+  </reporter-output>
+  <suite name="Suite" duration-ms="93072" started-at="2019-07-13T02:43:02Z" finished-at="2019-07-13T02:44:35Z">
+    <groups>
+    </groups>
+    <test name="Test" duration-ms="93072" started-at="2019-07-13T02:43:02Z" finished-at="2019-07-13T02:44:35Z">
+      <class name="serviceHub.OrderManagement.CreateOrder">
+        <test-method status="PASS" signature="precondtions()[pri:0, instance:serviceHub.OrderManagement.CreateOrder@117e949d]" name="precondtions" is-config="true" duration-ms="13332" started-at="2019-07-13T08:13:02Z" finished-at="2019-07-13T08:13:15Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- precondtions -->
+        <test-method status="FAIL" signature="createOrderTest()[pri:0, instance:serviceHub.OrderManagement.CreateOrder@117e949d]" name="createOrderTest" duration-ms="75059" started-at="2019-07-13T08:13:15Z" finished-at="2019-07-13T08:14:30Z">
+          <exception class="atu.testng.reports.exceptions.ATUReporterStepFailedException">
+            <full-stacktrace>
+              <![CDATA[[ATU Custom Reporter Step Failed Exception]
+	at atu.testng.reports.listeners.ATUReportsListener.onTestSuccess(Unknown Source)
+	at org.testng.internal.Invoker.runTestListeners(Invoker.java:1899)
+	at org.testng.internal.Invoker.runTestListeners(Invoker.java:1879)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:778)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:901)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1231)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:127)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:111)
+	at org.testng.TestRunner.privateRun(TestRunner.java:767)
+	at org.testng.TestRunner.run(TestRunner.java:617)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.access$000(SuiteRunner.java:37)
+	at org.testng.SuiteRunner$SuiteWorker.run(SuiteRunner.java:368)
+	at org.testng.internal.thread.ThreadUtil$2.call(ThreadUtil.java:64)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+]]>
+            </full-stacktrace>
+          </exception> <!-- atu.testng.reports.exceptions.ATUReporterStepFailedException -->
+          <reporter-output>
+            <line>
+              <![CDATA[STEP1]]>
+            </line>
+            <line>
+              <![CDATA[STEP2]]>
+            </line>
+            <line>
+              <![CDATA[STEP3]]>
+            </line>
+          </reporter-output>
+        </test-method> <!-- createOrderTest -->
+        <test-method status="PASS" signature="postcondtions()[pri:0, instance:serviceHub.OrderManagement.CreateOrder@117e949d]" name="postcondtions" is-config="true" duration-ms="4671" started-at="2019-07-13T08:14:30Z" finished-at="2019-07-13T08:14:35Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- postcondtions -->
+      </class> <!-- serviceHub.OrderManagement.CreateOrder -->
+    </test> <!-- Test -->
+  </suite> <!-- Suite -->
+</testng-results>

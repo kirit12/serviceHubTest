@@ -1,35 +1,45 @@
 package com.serviceHub;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.HtmlEmail;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+
+import atu.testng.reports.ATUReports;
+import atu.testng.reports.utils.Utils;
 
 public class base {
-	
-	public static WebDriver driver;
-	
-	public WebDriver DriverIni()
+	{
+		System.setProperty("atu.reporter.config", "./src/main/java/com/serviceHub/atu.properties");
+	}
+	public WebDriver driver;
+	public void DriverIni()
 	{
 		try{
-		
+			
 		FileInputStream file = new FileInputStream("./src/main/java/com/serviceHub/data.properties");
 		Properties prop = new Properties();
 		prop.load(file);
 		String browserName = prop.getProperty("browser");
 		String url = prop.getProperty("url");
-		
+		ATUReports.setAuthorInfo("Kirit Thakrar",Utils.getCurrentTime() , "1");
 		if (browserName.equals("chrome"))
 		{
 			System.setProperty("webdriver.chrome.driver", "./Drivers/chromedriver.exe");
+			
 			driver = new ChromeDriver();
+			ATUReports.setWebDriver(driver);
 			//System.out.println("chrome");
 		}
 		else if (browserName.equals("firefox"))
@@ -53,83 +63,24 @@ public class base {
 		{
 			System.out.println(e.getMessage());
 		}
-		return driver;
-		
+				
 	}
 	
-	@BeforeClass
+	@BeforeTest
 	public void precondtions()
 	{
 		DriverIni();
+	
+		
 	}
 	
-	@AfterClass
+	@AfterTest
 	public void postcondtions()
 	{
-	 
+		EmailTemplete();
 		driver.quit();
 	}
 	
-	/*private void generateEmailTemplate(int passed, int failed, int skipped) {
-		 try
-		  {
-			  File reportTemplate=null;
-				  reportTemplate = new File(".\\Email\\report.html");
-				  
-			
-		
-			String mailContent = FileUtils.readFileToString(reportTemplate);
-			int totalCases = passed+failed+skipped;
-
-			mailContent = mailContent.replace("${ReportHeader}", " - Service Hub | Daily Automation Test Case Report "+getDate());
-			mailContent = mailContent.replace("${TotalTestCases}", String.valueOf(totalCases));
-			mailContent = mailContent.replace("${PassedTestCases}", String.valueOf(passed));
-			mailContent = mailContent.replace("${FailedTestCases}", String.valueOf(failed));
-			mailContent = mailContent.replace("${SkippedTestCases}", String.valueOf(skipped));
-			sendMail(mailContent);
-			} catch (Exception e) 
-			{
-				System.out.println(e.getMessage());
-			}
-		
-	}
-
-	
-		private void sendMail(String mailContent) {
-		// TODO Auto-generated method stub
-			try
-			  {
-				HtmlEmail email = new HtmlEmail();
-				email.setHostName("mail.tatvasoft.com");
-				email.setSmtpPort(25);
-				email.setAuthenticator(new DefaultAuthenticator("kirit.thakrar1992@gmail.com", "KT@thakrar1212"));
-				email.setSSLOnConnect(true);
-				
-				email.addTo("kirit.thakrar1992@gmail.com", "Kirit Thakrar");
-				//email.addTo("kirit.thakrar1992@gmail.com", "Sandip Thakkar");
-				
-				email.setFrom("kirit.thakrar1992@gmail.com", "kirit.thakrar1992@gmail.com");
-				email.setSubject("Srvice Hub | Daily Automation Test Summary Report "+getDate());
-				email.setHtmlMsg(mailContent);
-				email.setTextMsg("Your email client does not support HTML messages");
-				email.send();
-			  }
-			  catch(Exception ex)
-			  {
-				  System.out.println(ex.getMessage());
-			  }
-	}
-
-		public String getDate() {
-			Date date = new Date();
-			DateFormat outputFormatter = new SimpleDateFormat("yyyy-MM-dd");
-			//DateFormat outputFormatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-			String output = outputFormatter.format(date);
-			return output ;
-		}
-		
-*/
-
 	public void waitForElement(WebDriver driver, WebElement element)
 	{
 		WebDriverWait wait = new WebDriverWait(driver, 20, 1000);
@@ -137,5 +88,47 @@ public class base {
 		wait.until(ExpectedConditions.visibilityOf(element));
 		wait.until(ExpectedConditions.elementToBeClickable(element));
 	}
+	
+	public void EmailTemplete()
+	{
+		try{
+			ResultListener rl = new ResultListener();
+			int passCount = rl.getPassCount();
+			int failCount = rl.getFailCount();
+			int skippedCount = rl.getSkippedCount();
+			int totalCount = passCount + failCount + skippedCount;
+			File emailFile = new File("./Email/report.html"); 
+			String dataRead = FileUtils.readFileToString(emailFile);
+			dataRead = dataRead.replace("${ReportHeader}", "Srvice Hub Automation");
+			dataRead = dataRead.replace("${TotalTestCases}", String.valueOf(totalCount));
+			dataRead = dataRead.replace("${PassedTestCases}", String.valueOf(passCount));
+			dataRead = dataRead.replace("${FailedTestCases}", String.valueOf(failCount));
+			dataRead = dataRead.replace("${SkippedTestCases}", String.valueOf(skippedCount));
+		
+			HtmlEmail email = new HtmlEmail();
+			email.setHostName("smtp.gmail.com");
+			email.setSmtpPort(465);
+			email.setAuthenticator(new DefaultAuthenticator("kirit.thakrar1992@gmail.com", "ekta@1212"));
+			email.setSSLOnConnect(true);
+			
+			email.addTo("kirit.thakrar1992@gmail.com");
+			email.setFrom("kirit.thakrar1992@gmail.com");
+			email.setSubject(" Daily Automation Test Summary Report ");
+			email.setHtmlMsg(dataRead);
+			email.setTextMsg("Your email client does not support HTML messages");
+			email.send();
+			System.out.println("Send Successfuly..");
+			
+			
+			
+			
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+	}
+	
 
 }
